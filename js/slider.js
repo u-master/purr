@@ -2,6 +2,7 @@ function sliderRun({
   sliderId,
   viewNum = 1,
   animationDelay = 20,
+  autoPlay = {}, // { enabled: true, delay: ms, playOnStart: true | false, direction: 'prev' | 'next' }
   buttonStyles = {},
   dotStyles = {},
   activeDotStyles = {},
@@ -9,9 +10,11 @@ function sliderRun({
   // States
   let currentIndex = 0;
   let animationProcess = 'idle';
+  let autoPlayDirection = 'stop';
+  let autoPlayTimer = 0;
 
-  // Default styles
-  const unitedButtonStyles = {
+  // Element styles
+  const finalButtonStyles = {
     border: '1px solid black',
     borderRadius: '50%',
     color: 'black',
@@ -24,20 +27,37 @@ function sliderRun({
     ...buttonStyles,
   };
 
-  const unitedDotStyles = {
+  const nextButtonStyles = { ...finalButtonStyles, marginLeft: '10px' };
+  const prevButtonStyles = { ...finalButtonStyles, marginRight: '10px' };
+
+  const finalDotStyles = {
     display: 'block',
     borderRadius: '50%',
     width: '10px',
     height: '10px',
-    backgroundColor: 'gray',
+    backgroundColor: 'silver',
     margin: '0 5px',
     ...dotStyles,
   };
 
-  const unitedActiveDotStyles = {
-    ...unitedDotStyles,
-    backgroundColor: 'silver',
-    ...dotStyles,
+  const finalActiveDotStyles = {
+    ...finalDotStyles,
+    backgroundColor: 'gray',
+    ...activeDotStyles,
+  };
+
+  const autoPlaySettings = {
+    enabled: false,
+    delay: 3000,
+    playOnStart: false,
+    direction: 'next',
+    ...autoPlay,
+  };
+
+  const mapDirections = {
+    prev: { sign: -1, label: '‹', labelAuto: '«' },
+    next: { sign: 1, label: '›', labelAuto: '»' },
+    stop: { sign: 0, labelAuto: '×' },
   };
 
   // View
@@ -47,56 +67,129 @@ function sliderRun({
   const slidesLen = slides.length;
 
   const wrapper = createTopWrapper();
-  const controls = createControls(unitedButtonStyles);
+  const controls = {
+    prevButton: createControl(mapDirections.prev.label, onclickShift('prev'), prevButtonStyles),
+    nextButton: createControl(mapDirections.next.label, onclickShift('next'), nextButtonStyles),
+    prevAutoButton: autoPlaySettings.enabled
+      ? createControl(mapDirections.prev.labelAuto, onclickAutoShift('prev'), prevButtonStyles)
+      : null,
+    nextAutoButton: autoPlaySettings.enabled
+      ? createControl(mapDirections.next.labelAuto, onclickAutoShift('next'), nextButtonStyles)
+      : null,
+  };
   const viewport = createViewport();
-  const dots = createDots(slider.children.length, unitedDotStyles);
+  const dots = createDots(slider.children.length, onclickDot, finalDotStyles);
   const slidesContainer = createSlidesContainer(viewNum);
 
   setSliderStyles(slider);
   rebuildSlider(slider, wrapper, dots, controls, viewport, slidesContainer);
   renderSlides(slidesContainer, slides, currentIndex, viewNum);
-  setDotStyles(dots, currentIndex, unitedActiveDotStyles);
+  setDotStyles(dots, currentIndex, finalActiveDotStyles); // Apply to current dot 'active' styles
+  if (autoPlaySettings.playOnStart)
+    executeAutoShift(
+      autoPlaySettings.direction,
+      controls[`${autoPlaySettings.direction}AutoButton`],
+    );
 
   // Controller
   const animationMultiplyer = 10 / viewNum;
   const startMarginLeft = -100 / viewNum;
   const stopMarginLeft = 2 * startMarginLeft;
 
-  controls.prevButton.addEventListener('click', function (elem) {
-    elem.preventDefault();
-    if (animationProcess === 'running') {
-      console.log('Ease, bro! (prev)');
-      return;
-    }
-    animationProcess = 'running';
-    setTimeout(shiftSlidesContainer, animationDelay, startMarginLeft, -1);
-  });
-
-  controls.nextButton.addEventListener('click', function (elem) {
-    elem.preventDefault();
-    if (animationProcess === 'running') {
-      console.log('Ease, bro! (next)');
-      return;
-    }
-    animationProcess = 'running';
-    setTimeout(shiftSlidesContainer, animationDelay, startMarginLeft, 1);
-  });
-
-  /** Shift effect animation */
-  function shiftSlidesContainer(currentMargin, direction) {
-    const marginLeft = currentMargin - direction * animationMultiplyer;
-    if (marginLeft >= 0 || marginLeft <= stopMarginLeft) {
-      setDotStyles(dots, currentIndex, unitedDotStyles);
-      currentIndex = (currentIndex + direction + slidesLen) % slidesLen;
-      renderSlides(slidesContainer, slides, currentIndex, viewNum);
-      slidesContainer.style.marginLeft = `${startMarginLeft}%`;
-      setDotStyles(dots, currentIndex, unitedActiveDotStyles);
-      animationProcess = 'ended';
-      return;
-    }
-    slidesContainer.style.marginLeft = `${marginLeft}%`;
-    setTimeout(shiftSlidesContainer, animationDelay, marginLeft, direction);
+  function onclickShift(direction) {
+    return function (elem) {
+      elem.preventDefault();
+      runPlay(direction);
+    };
   }
+
+  function executeAutoShift(direction, button) {
+    if (autoPlayDirection === direction) {
+      stopAutoPlay();
+      button.innerText = mapDirections[direction].labelAuto;
+    } else {
+      if (autoPlayDirection === 'stop') button.innerText = mapDirections.stop.labelAuto;
+      runAutoPlay(direction);
+    }
+  }
+
+  function onclickAutoShift(direction) {
+    return function (elem) {
+      elem.preventDefault();
+      executeAutoShift(direction, elem.target);
+    };
+  }
+
+  function onclickDot(index) {
+    return function (elem) {
+      elem.preventDefault();
+      const delta = index - currentIndex;
+      if (delta === 0) return;
+      runPlay(delta < 0 ? 'prev' : 'next', Math.abs(delta));
+    };
+  }
+
+  // Shift effect animation
+  function shiftSlides(currentMargin, direction, callbackEnd, iterations) {
+    const dirSign = mapDirections[direction].sign;
+    const marginLeft = currentMargin - dirSign * animationMultiplyer;
+    if (marginLeft >= 0 || marginLeft <= stopMarginLeft) {
+      setDotStyles(dots, currentIndex, finalDotStyles);
+      currentIndex = (currentIndex + dirSign + slidesLen) % slidesLen;
+      renderSlides(slidesContainer, slides, currentIndex, viewNum);
+      slidesContainer.style.marginLeft = `${startMarginLeft}%`; // View
+      setDotStyles(dots, currentIndex, finalActiveDotStyles);
+      if (iterations === 1) callbackEnd();
+      else
+        setTimeout(
+          shiftSlides,
+          animationDelay,
+          startMarginLeft,
+          direction,
+          callbackEnd,
+          iterations - 1,
+        );
+      return;
+    }
+    slidesContainer.style.marginLeft = `${marginLeft}%`; // View
+    setTimeout(shiftSlides, animationDelay, marginLeft, direction, callbackEnd, iterations);
+  }
+
+  // Processes controls
+  function runPlay(direction, iterations = 1) {
+    if (animationProcess === 'running') return;
+    animationProcess = 'running';
+    pauseAutoPlay();
+    shiftSlides(startMarginLeft, direction, stopPlay, iterations);
+  }
+
+  function stopPlay() {
+    if (animationProcess !== 'running') return;
+    animationProcess = 'finished';
+    resumeAutoPlay();
+  }
+
+  function runAutoPlay(direction) {
+    if (autoPlayDirection !== 'stop') return;
+    autoPlayDirection = direction;
+    resumeAutoPlay();
+  }
+
+  function stopAutoPlay() {
+    pauseAutoPlay();
+    autoPlayDirection = 'stop';
+  }
+
+  function resumeAutoPlay() {
+    if (autoPlayDirection !== 'stop')
+      autoPlayTimer = setTimeout(runPlay, autoPlaySettings.delay, autoPlayDirection, 1);
+  }
+
+  function pauseAutoPlay() {
+    clearTimeout(autoPlayTimer);
+  }
+
+  /* --- ^ ^ --- */
 
   /** Tune styles for slider */
   function setSliderStyles(slider) {
@@ -126,18 +219,15 @@ function sliderRun({
     return slidesContainer;
   }
 
-  /** Create controls */
-  function createControls(buttonStyles) {
-    const prevButton = document.createElement('a');
-    Object.assign(prevButton.style, buttonStyles);
-    prevButton.style.flexShrink = '0';
-    prevButton.href = '#';
-    const nextButton = prevButton.cloneNode(false);
-    prevButton.innerText = '‹';
-    prevButton.style.marginRight = '10px';
-    nextButton.innerText = '›';
-    nextButton.style.marginLeft = '10px';
-    return { prevButton, nextButton };
+  /** Create control */
+  function createControl(content, onclickButton, buttonStyles) {
+    const button = document.createElement('a');
+    Object.assign(button.style, buttonStyles);
+    button.style.flexShrink = '0';
+    button.href = '#';
+    button.innerText = content;
+    button.addEventListener('click', onclickButton);
+    return button;
   }
 
   /** Create viewport for slides. It hides unnecessary slides. */
@@ -149,12 +239,13 @@ function sliderRun({
   }
 
   /** Create dots */
-  function createDots(numDots, dotStyles) {
+  function createDots(numDots, onclickDot, dotStyles) {
     const dotsContainer = document.createElement('div');
-    const dots = [...Array(numDots)].map(() => {
+    const dots = [...Array(numDots)].map((_elem, index) => {
       const dot = document.createElement('a');
       Object.assign(dot.style, dotStyles);
       dot.href = '#';
+      dot.addEventListener('click', onclickDot(index));
       return dot;
     });
     dotsContainer.append(...dots);
@@ -176,12 +267,15 @@ function sliderRun({
     slider,
     wrapper,
     dots,
-    { prevButton, nextButton },
+    { prevButton, nextButton, prevAutoButton, nextAutoButton },
     viewport,
     slidesContainer,
   ) {
     viewport.append(slidesContainer);
-    wrapper.append(prevButton, viewport, nextButton);
+    const wrapperElems = [prevAutoButton, prevButton, viewport, nextButton, nextAutoButton].filter(
+      (e) => e,
+    );
+    wrapper.append(...wrapperElems);
     slider.innerHTML = '';
     slider.append(wrapper, dots);
   }

@@ -17,7 +17,7 @@
         <div class="slider-item">three</div>
     </div>
 
-    <h3> Show 12 slides per 3 </h3>
+    <h3> Show 12 slides per 3, autoplay controls, little slower </h3>
     <div id="slider-3view-12pic" class="slider">
         <div class="slider-item">one</div>
         <div class="slider-item">two</div>
@@ -40,7 +40,7 @@
         <div class="slider-item">three</div>
     </div>
 
-    <h3> Show 5 slides per 1 </h3>
+    <h3> Show 5 slides per 1, autoplay on load </h3>
     <div id="slider-1view-5pic" class="slider">
         <div class="slider-item">one</div>
         <div class="slider-item">two</div>
@@ -77,9 +77,9 @@
     <script src="js/slider.js"></script>
     <script>
         sliderRun({ sliderId: 'slider-2view-3pic', viewNum: 2 });
-        sliderRun({ sliderId: 'slider-3view-12pic', viewNum: 3 });
+        sliderRun({ sliderId: 'slider-3view-12pic', viewNum: 3, autoPlay: { enabled: true }, animationDelay: 100 });
         sliderRun({ sliderId: 'slider-3view-3pic', viewNum: 3, animationDelay: 300 });
-        sliderRun({ sliderId: 'slider-1view-5pic', viewNum: 1 });
+        sliderRun({ sliderId: 'slider-1view-5pic', viewNum: 1, autoPlay: { enabled: true, playOnStart: true, delay: 2000 } });
         sliderRun({ sliderId: 'slider-2view-1pic', viewNum: 2 });
         sliderRun({ 
             sliderId: 'slider-customize', 
@@ -92,8 +92,19 @@
                 boxShadow: '0 0 7px 0 teal, inset 0 0 10px 3px green', 
                 width: '30px', 
                 height: '30px',
-                lineHeight: '28px',
+                lineHeight: '26px',
             },
+            dotStyles: {
+                marginTop: '25px',
+                backgroundColor: 'purple',
+                width: '18px',
+                height: '18px',
+            },
+            activeDotStyles: {
+                backgroundColor: 'fuchsia',
+                boxShadow: 'inset 1px 2px 0 1px purple',
+            },
+            autoPlay: { enabled: true },
         });
     </script>
 </body>
