@@ -5,8 +5,17 @@ body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+hr {
+    width: 75%;
+}
+
 .slider {
     width: 600px;
+    margin-bottom: 50px;
+}
+
+.slider_wide {
+    width: 1100px;
 }
 
 .slider-item {
@@ -15,4 +24,13 @@ body {
     border-image-slice: 1;
     width: 160px;
     height: 90px;
+    color: purple;
+    line-height: 90px;
+    text-align: center;
+}
+
+.footer {
+    margin: 20px;
+    color: silver;
+    font-size: 12px;
 }

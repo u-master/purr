@@ -9,15 +9,92 @@
 </head>
 <body>
     <h1>Slider demonstration</h1>
+
+    <h3> Show 3 slides per 2 </h3>
     <div id="slider-2view-3pic" class="slider">
         <div class="slider-item">one</div>
         <div class="slider-item">two</div>
         <div class="slider-item">three</div>
     </div>
+
+    <h3> Show 12 slides per 3 </h3>
+    <div id="slider-3view-12pic" class="slider">
+        <div class="slider-item">one</div>
+        <div class="slider-item">two</div>
+        <div class="slider-item">three</div>
+        <div class="slider-item">four</div>
+        <div class="slider-item">five</div>
+        <div class="slider-item">six</div>
+        <div class="slider-item">seven</div>
+        <div class="slider-item">eight</div>
+        <div class="slider-item">nine</div>
+        <div class="slider-item">ten</div>
+        <div class="slider-item">eleven</div>
+        <div class="slider-item">twelve</div>
+    </div>
+
+    <h3> Show 3 slides per 3, slow-mo </h3>
+    <div id="slider-3view-3pic" class="slider">
+        <div class="slider-item">one</div>
+        <div class="slider-item">two</div>
+        <div class="slider-item">three</div>
+    </div>
+
+    <h3> Show 5 slides per 1 </h3>
+    <div id="slider-1view-5pic" class="slider">
+        <div class="slider-item">one</div>
+        <div class="slider-item">two</div>
+        <div class="slider-item">three</div>
+        <div class="slider-item">four</div>
+        <div class="slider-item">five</div>
+    </div>
     
+    <h3> Show 1 slide per 2 </h3>
+    <div id="slider-2view-1pic" class="slider">
+        <div class="slider-item">one</div>
+    </div>
+
+    <h3> Custom styles </h3>
+    <div id="slider-customize" class="slider slider_wide">
+        <div class="slider-item">one</div>
+        <div class="slider-item">two</div>
+        <div class="slider-item">three</div>
+        <div class="slider-item">four</div>
+        <div class="slider-item">five</div>
+        <div class="slider-item">six</div>
+        <div class="slider-item">seven</div>
+        <div class="slider-item">eight</div>
+        <div class="slider-item">nine</div>
+        <div class="slider-item">ten</div>
+    </div>
+
+    <p>&nbsp;</p>
+    <hr>
+    <footer class="footer">
+        2020 &copy; MurrWeb
+    </footer>
+
     <script src="js/slider.js"></script>
     <script>
-        sliderRun({ sliderId : 'slider-2view-3pic', viewNum: 2 });
+        sliderRun({ sliderId: 'slider-2view-3pic', viewNum: 2 });
+        sliderRun({ sliderId: 'slider-3view-12pic', viewNum: 3 });
+        sliderRun({ sliderId: 'slider-3view-3pic', viewNum: 3, animationDelay: 300 });
+        sliderRun({ sliderId: 'slider-1view-5pic', viewNum: 1 });
+        sliderRun({ sliderId: 'slider-2view-1pic', viewNum: 2 });
+        sliderRun({ 
+            sliderId: 'slider-customize', 
+            viewNum: 6, 
+            buttonStyles: { 
+                color: 'navy',
+                fontSize: '24px',
+                fontWeight: 'bold',
+                borderColor: 'transparent', 
+                boxShadow: '0 0 7px 0 teal, inset 0 0 10px 3px green', 
+                width: '30px', 
+                height: '30px',
+                lineHeight: '28px',
+            },
+        });
     </script>
 </body>
 </html>
