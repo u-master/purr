@@ -29,6 +29,13 @@ hr {
     text-align: center;
 }
 
+.usage {
+    background-color: rgb(245, 237, 222);
+    box-shadow: 15px 15px 0 0 wheat;
+    line-height: 1.5em;
+    padding: 0 35px;
+}
+
 .footer {
     margin: 20px;
     color: silver;

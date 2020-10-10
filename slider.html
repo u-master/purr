@@ -69,6 +69,31 @@
     </div>
 
     <p>&nbsp;</p>
+
+    <h2> Usage: </h2>
+    <pre class="usage"><code>
+&lt;script src=&quot;path-to/slider.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+    sliderRun({ 
+        sliderId: 'elemID',   // Required. Slider element's ID attribute value.
+        viewNum: 2,   // Default: 1. Number of slides outputted together.
+        buttonStyles: {    // Custom styles for control buttons
+            backgroundColor: black,
+            color: white,
+        },
+        dotStyles: {}, activeDotStyles: {},   // Custom styles for dots and active dot.
+        autoPlay: {   // Settings for automatic slides shifting. Disabled as default.
+            enabled: true,  // Default: false. Set 'true' if needed.
+            playOnStart: true,   // Default: false. Set 'true' for shift slides on start.
+            direction: 'next', // Default: 'next'. Values: 'prev' (moving forward), 'next' (moving backward).
+            delay: 1000,   // Default: 3000. Delay between slides shifting in miliseconds.
+        }
+    });
+&lt;/script&gt;
+    </code></pre>
+
+    <p>&nbsp;</p>
+
     <hr>
     <footer class="footer">
         2020 &copy; MurrWeb
