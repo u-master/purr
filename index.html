@@ -7,10 +7,22 @@
     <title>One World Dating</title>
 </head>
 <body>
+    <a href="#" class="menu-toggler" title="MENU"
+        onclick="document.querySelector('.menu_main').classList.toggle('menu_hidden');document.querySelector('.menu-toggler').classList.toggle('menu-toggler_close');">
+        <span class="menu-toggler__title">MENU</span>
+    </a>
+    <nav class="menu menu_main menu_hidden">
+        <ul class="menu__items menu__items_main">
+            <li><a href="#" class="menu__item">ABOUT</a></li>
+            <li><a href="#" class="menu__item">CONTACT</a></li>
+            <li><a href="#" class="menu__item">FAQs</a></li>
+            <li><a href="#" class="menu__item">BLOG</a></li>
+            <li><a href="#" class="menu__item">ONLINE SAFETY</a></li>
+            <li><a href="#" class="menu__item">PRIVACY POLICY</a></li>
+            <li><a href="#" class="menu__item">TERMS OF USE</a></li>
+        </ul>
+    </nav>
     <header class="header">
-        <nav class="menu header__menu">
-           <a href="#" class="menu__toggler">MENU</a>
-        </nav>
         <div class="wrapper header__wrapper">
             <img src="images/logo.png" class="logo header__logo" alt="One World Dating">
             <h1 class="header__title">Find Someone to Click With</h1>
@@ -79,38 +91,68 @@
             <div class="bubble bubble_talks"><img src="/images/join-talks.png" alt="Talks!"></div>
         </div>
     </div>
-    <footer>
+    <footer class="footer">
         <div class="wrapper">
-            <ul class="footer__flags">
-                <li><a href="#"><img src="/images/flags/Czech.png" alt="Czech"></a></li>
-                <li><a href="#"><img src="/images/flags/Greek.png" alt="Greek"></a></li>
-                <li><a href="#"><img src="/images/flags/English.png" alt="English"></a></li>
-                <li><a href="#"><img src="/images/flags/Taiwanese.png" alt="Taiwanese"></a></li>
-                <li><a href="#"><img src="/images/flags/Japanese.png" alt="Japanese"></a></li>
-                <li><a href="#"><img src="/images/flags/Bosnian.png" alt="Bosnian"></a></li>
-                <li><a href="#"><img src="/images/flags/German.png" alt="German"></a></li>
-                <li><a href="#"><img src="/images/flags/Italian.png" alt="Italian"></a></li>
-                <li><a href="#"><img src="/images/flags/Dutch.png" alt="Dutch"></a></li>
-                <li><a href="#"><img src="/images/flags/Chinese.png" alt="Chinese"></a></li>
-                <li><a href="#"><img src="/images/flags/Arabic.png" alt="Arabic"></a></li>
-                <li><a href="#"><img src="/images/flags/French.png" alt="French"></a></li>
-                <li><a href="#"><img src="/images/flags/Slovenian.png" alt="Slovenian"></a></li>
-                <li><a href="#"><img src="/images/flags/Spanish.png" alt="Spanish"></a></li>
-                <li><a href="#"><img src="/images/flags/Korean.png" alt="Korean"></a></li>
-                <li><a href="#"><img src="/images/flags/Portuguese.png" alt="Portuguese"></a></li>
-                <li><a href="#"><img src="/images/flags/Norwegian.png" alt="Norwegian"></a></li>
-                <li><a href="#"><img src="/images/flags/Russian.png" alt="Russian"></a></li>
-                <li><a href="#"><img src="/images/flags/Polish.png" alt="Polish"></a></li>
-                <li><a href="#"><img src="/images/flags/Swedish.png" alt="Swedish"></a></li>
-                <li><a href="#"><img src="/images/flags/Romanian.png" alt="Romanian"></a></li>
-                <li><a href="#"><img src="/images/flags/Danish.png" alt="Danish"></a></li>
-                <li><a href="#"><img src="/images/flags/Turkey.png" alt="Turkey"></a></li>
-                <li><a href="#"><img src="/images/flags/Slovak.png" alt="Slovak"></a></li>
-                <li><a href="#"><img src="/images/flags/Vietnamese.png" alt="Vietnamese"></a></li>
-                <li><a href="#"><img src="/images/flags/Croatian.png" alt="Croatian"></a></li>
-                <li><a href="#"><img src="/images/flags/Thai.png" alt="Thai"></a></li>
+            <div class="subscribe footer__subscribe" id="subscribe">
+                <form action="#" method="post" class="form subscribe__form">
+                    <label for="subscribe-email" class="subscribe__email-label">Sign up for our newsletter</label>
+                    <input type="text" name="email" id="subscribe-email" class="subscribe__email" placeholder="Email Address">
+                    <button type="submit" class="button subscribe__submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <aside class="socials">
+            <ul class="socials__container">
+                <li><a href="#" class="socials__item"><img src="/images/socials-sprites.png" alt="Share" class="socials__image_sh"></a></li>
+                <li><a href="#" class="socials__item"><img src="/images/socials-sprites.png" alt="Facebook" class="socials__image_fb"></a></li>
+                <li><a href="#" class="socials__item"><img src="/images/socials-sprites.png" alt="Instagram" class="socials__image_ig"></a></li>
+                <li><a href="#" class="socials__item"><img src="/images/socials-sprites.png" alt="Twitter" class="socials__image_tw"></a></li>
+            </ul>
+        </aside>
+        <nav class="menu footer__menu">
+            <ul class="wrapper menu__items">
+                <li><a href="#" class="menu__item">ABOUT</a></li>
+                <li><a href="#" class="menu__item">CONTACT</a></li>
+                <li><a href="#" class="menu__item">FAQs</a></li>
+                <li><a href="#" class="menu__item">BLOG</a></li>
+                <li><a href="#" class="menu__item">ONLINE SAFETY</a></li>
+                <li><a href="#" class="menu__item">PRIVACY POLICY</a></li>
+                <li><a href="#" class="menu__item">TERMS OF USE</a></li>
+            </ul>
+        </nav>
+        <div class="wrapper">
+            <ul class="flags footer__flags">
+                <li><a href="#" class="flags__item flags__item_Czech"></a></li>
+                <li><a href="#" class="flags__item flags__item_Greek"></a></li>
+                <li><a href="#" class="flags__item flags__item_English"></a></li>
+                <li><a href="#" class="flags__item flags__item_Taiwanese"></a></li>
+                <li><a href="#" class="flags__item flags__item_Japanese"></a></li>
+                <li><a href="#" class="flags__item flags__item_Bosnian"></a></li>
+                <li><a href="#" class="flags__item flags__item_German"></a></li>
+                <li><a href="#" class="flags__item flags__item_Italian"></a></li>
+                <li><a href="#" class="flags__item flags__item_Dutch"></a></li>
+                <li><a href="#" class="flags__item flags__item_Chinese"></a></li>
+                <li><a href="#" class="flags__item flags__item_Arabic"></a></li>
+                <li><a href="#" class="flags__item flags__item_French"></a></li>
+                <li><a href="#" class="flags__item flags__item_Slovenian"></a></li>
+                <li><a href="#" class="flags__item flags__item_Spanish"></a></li>
+                <li><a href="#" class="flags__item flags__item_Korean"></a></li>
+                <li><a href="#" class="flags__item flags__item_Portuguese"></a></li>
+                <li><a href="#" class="flags__item flags__item_Norwegian"></a></li>
+                <li><a href="#" class="flags__item flags__item_Russian"></a></li>
+                <li><a href="#" class="flags__item flags__item_Polish"></a></li>
+                <li><a href="#" class="flags__item flags__item_Swedish"></a></li>
+                <li><a href="#" class="flags__item flags__item_Romanian"></a></li>
+                <li><a href="#" class="flags__item flags__item_Danish"></a></li>
+                <li><a href="#" class="flags__item flags__item_Turkey"></a></li>
+                <li><a href="#" class="flags__item flags__item_Slovak"></a></li>
+                <li><a href="#" class="flags__item flags__item_Vietnamese"></a></li>
+                <li><a href="#" class="flags__item flags__item_Croatian"></a></li>
+                <li><a href="#" class="flags__item flags__item_Thai"></a></li>
             </ul>
         </div>
+        <hr class="footer__hr">
+        <p class="wrapper footer__copyright">&copy; 2017 All World Dating Enterprise Company LLC. All rights reserved. We pledge never to share or sell your Email Address.</p>
     </footer>
 </body>
 </html>
