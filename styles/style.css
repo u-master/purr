@@ -52,11 +52,15 @@ body {
     --header__title-margin: calc(65 * var(--header-ratio));
     --header__title-letter-spacing: calc(2 * var(--header-ratio));
 
+    z-index: 1;
+    overflow-x: hidden;
+}
+
+.header__image {
     background: url('../images/top-bg.png') 0 0 no-repeat;
     background-size: 100% auto;
-    width: 100%;
+    width: 100vw;
     height: var(--header-height);
-    z-index: 1;
 }
 
 .header__wrapper {
