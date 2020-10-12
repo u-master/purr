@@ -337,7 +337,11 @@ body {
     filter: drop-shadow(0 0 5px var(--main-darkpink-color));
 }
 
+<<<<<<< HEAD
 .menu-toggler:focus, .menu-toggler:active, .menu-toggler:hover {
+=======
+.menu-toggler:focus {
+>>>>>>> 8c4c42718d2b1f5d2ff4af88d781e9fade45aa29
     outline: none;
 }
 
