@@ -337,8 +337,8 @@ body {
     filter: drop-shadow(0 0 5px var(--main-darkpink-color));
 }
 
-.menu-toggler:active::after {
-    border: none;
+.menu-toggler:focus {
+    outline: none;
 }
 
 .menu-toggler_close::after {
