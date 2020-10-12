@@ -348,10 +348,13 @@ body {
     list-style: none;
 }
 
+.menu__items_main {
+    padding: 0;
+}
+
 @media only screen and (min-width: 764px) and (max-width: 1280px) {
     .menu__items_main {
         align-items: center;
-        padding-left: 0;
         height: 40px;
     }
     .menu_main {
@@ -398,6 +401,10 @@ body {
     text-decoration: underline;
 }
 
+.menu__item:active {
+    color: var(--main-purple-color);
+}
+
 @media only screen and (max-width: 1280px) {
     .menu-toggler {
         top: 20px;
@@ -433,6 +440,15 @@ body {
     padding: 10px 0;
     text-decoration: none;
     cursor: pointer;
+    transition: filter,box-shadow 0.2s ease;
+}
+
+.button:hover {
+    filter: brightness(1.2);
+}
+
+.button:active {
+    box-shadow: inset -2px 2px 2px 0 rgba(0, 0, 0, 0.35);
 }
 
 @media only screen and (max-width: 763px) {
