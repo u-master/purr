@@ -326,6 +326,11 @@ body {
     height: 33px;
     margin-left: 12px;
     background: url('/images/bar.svg') 0 0 no-repeat;
+    transition: filter 0.2s ease-out;
+}
+
+.menu-toggler:hover::after {
+    filter: drop-shadow(0 0 5px var(--main-darkpink-color));
 }
 
 .menu-toggler_close::after {
@@ -379,16 +384,17 @@ body {
 }
 
 .menu_hidden {
-    /* visibility: hidden; */
     display: none;
 }
 
 .menu__item {
     text-decoration: none;
     color: var(--main-font-color);
+    transition: color,text-decoration 0.5s ease;
 }
 
 .menu__item:hover {
+    color: var(--main-darkpurple-color);
     text-decoration: underline;
 }
 
@@ -590,6 +596,8 @@ body {
 @media only screen and (max-width: 763px) {
     .card {
         grid-template: auto / 1fr 2fr;
+        grid-column-gap: 5px;
+        margin-top: 15px;
     }
 }
 
